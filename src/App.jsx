@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import Header from "./components/Header"
 import Guitar from "./components/Guitar"
 import { db } from "./data/db"
@@ -6,10 +6,19 @@ import { db } from "./data/db"
 
 function App() {
     
-    const [data, setData] = useState(db)
-    const [cart, setCart] = useState([])    
+    const initialCart = () =>{
+        const localStorageCart = localStorage.getItem("cart")
+        return localStorageCart ? JSON.parse(localStorageCart) : []
+    }
+
+    const [data] = useState(db)
+    const [cart, setCart] = useState(initialCart)    
     const MAX_CART = 10;
-    const MIN_CART = 0;
+    const MIN_CART = 1;
+
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(cart))
+    },[cart])
 
     function addToCart(item){
 
@@ -25,6 +34,7 @@ function App() {
         }
         
         setCart([...cart, item])
+        saveLocalStorage()
     }
 
     function removeFromCar(id){
@@ -63,10 +73,6 @@ function App() {
         console.log("Carrito vaciado")
         setCart([])
     }
-
-
-
-
 
     return (
     <>
