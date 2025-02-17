@@ -1,9 +1,8 @@
 import React from 'react';
+import { useCart } from '../hooks/useCart';
 
-export default function Header({ cart, removeFromCar, increaseQuantity, decreaseQuantity,clearCart }) {
+export default function Header({ cart, removeFromCar, increaseQuantity, decreaseQuantity,clearCart, isEmpty, totalPagar }) {
     // Estado derivado corregido
-    const isEmpty = cart.length === 0;
-    const totalPagar = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     return (
         <header className="py-5 header">
